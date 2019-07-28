@@ -1,4 +1,5 @@
 import tweepy
+from tweepy.error import TweepError
 import logging
 from config import create_api
 import time
@@ -11,8 +12,14 @@ def follow_followers(api):
     logger.info("Retrieving and following followers")
     for follower in tweepy.Cursor(api.followers).items():
         if not follower.following:
-            logger.info(f"Following {follower.name}")
-            follower.follow()
+            try:
+                logger.info(f"Following {follower.name}")
+                follower.follow()
+            except TweepError as e:
+                logger.error(e.reason)
+                if e.api_code == 161:
+                    time.sleep(600)
+                continue
 
 
 def main():
