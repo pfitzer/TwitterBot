@@ -8,8 +8,10 @@ logger = logging.getLogger()
 
 
 class FavRetweetListener(tweepy.StreamListener):
+    
     def __init__(self, api):
         self.me = api.me()
+        super(FavRetweetListener, self).__init__(api=api)
 
     def on_status(self, tweet):
         logger.info(f"Processing tweet id {tweet.id}")
