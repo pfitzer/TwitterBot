@@ -36,4 +36,4 @@ def main(keywords):
 
 
 if __name__ == "__main__":
-    main(["Angeln", "Fliegenfischen", "Flytying", "Fliegenbinden"])
+    main(["#Angeln", "#Fliegenfischen", "#Flytying", "#Fliegenbinden"])
