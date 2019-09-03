@@ -1,7 +1,7 @@
-import tweepy
 import logging
-from bots.config import create_api
-import json
+
+import tweepy
+from .config import create_api
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()

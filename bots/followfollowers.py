@@ -1,7 +1,7 @@
 import tweepy
 from tweepy.error import TweepError
 import logging
-from bots.config import create_api
+from .config import create_api
 import time
 
 logging.basicConfig(level=logging.INFO)
