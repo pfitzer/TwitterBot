@@ -1,6 +1,6 @@
 import tweepy
 import logging
-from config import create_api
+from bots.config import create_api
 import json
 
 logging.basicConfig(level=logging.INFO)
@@ -29,10 +29,13 @@ class FavRetweetListener(tweepy.StreamListener):
 
 
 def main(keywords):
+    keys = []
+    for key in keywords:
+        keys.append(key + " -filter:retweets")
     api = create_api()
     tweets_listener = FavRetweetListener(api)
     stream = tweepy.Stream(api.auth, tweets_listener)
-    stream.filter(track=keywords, languages=["de"])
+    stream.filter(track=keys, languages=["de"])
 
 
 if __name__ == "__main__":
