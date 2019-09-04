@@ -29,13 +29,10 @@ class FavRetweetListener(tweepy.StreamListener):
 
 
 def main(keywords):
-    keys = []
-    for key in keywords:
-        keys.append(key + " -filter:retweets")
     api = create_api()
     tweets_listener = FavRetweetListener(api)
     stream = tweepy.Stream(api.auth, tweets_listener)
-    stream.filter(track=keys, languages=["de"])
+    stream.filter(track=keywords, languages=["de"])
 
 
 if __name__ == "__main__":
