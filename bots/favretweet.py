@@ -19,7 +19,7 @@ class FavRetweetListener(tweepy.StreamListener):
                 tweet.user.id == self.me.id:
             return
         try:
-            tweet.favorite()
+            #tweet.favorite()
             tweet.retweet()
         except Exception as e:
             logger.error("Error on fav and retweet", exc_info=True)
@@ -32,8 +32,8 @@ def main(keywords):
     api = create_api()
     tweets_listener = FavRetweetListener(api)
     stream = tweepy.Stream(api.auth, tweets_listener)
-    stream.filter(track=keywords, languages=["de"])
+    stream.filter(track=keywords, languages=["de"], filter_level=['medium'])
 
 
 if __name__ == "__main__":
-    main(["#Angeln", "#Fliegenfischen", "#Flytying", "#Fliegenbinden"])
+    main(["#Angeln", "#Fliegenfischen", "#flytying", "#Fliegenbinden", "flyfishing"])
