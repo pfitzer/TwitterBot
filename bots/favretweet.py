@@ -32,8 +32,8 @@ def main(keywords):
     api = create_api()
     tweets_listener = FavRetweetListener(api)
     stream = tweepy.Stream(api.auth, tweets_listener)
-    stream.filter(track=keywords, languages=["de"], filter_level='medium')
+    stream.filter(track=keywords, languages=["de"])
 
 
 if __name__ == "__main__":
-    main(["#Angeln", "#Fliegenfischen", "#flytying", "#Fliegenbinden", "flyfishing"])
+    main(["#Angeln", "#Fliegenfischen", "#flytying", "#Fliegenbinden", "#flyfishing"])
