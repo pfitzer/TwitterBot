@@ -5,7 +5,7 @@ from config import create_api
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
-STOP_WORDS = ['#game', '#gaming', 'twitch', 'stream', 'streaming', 'RussianFishing4']
+STOP_WORDS = ['#game', '#gaming', 'twitch', 'stream', 'streaming', 'RussianFishing4', '#Magentfischen', '#Magnetangeln']
 
 
 class FavRetweetListener(tweepy.StreamListener):
