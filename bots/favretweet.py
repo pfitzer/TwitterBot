@@ -1,10 +1,11 @@
 import logging
-
 import tweepy
 from config import create_api
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
+
+STOP_WORDS = ['#game', '#gaming', 'twitch', 'stream', 'streaming', 'RussianFishing4']
 
 
 class FavRetweetListener(tweepy.StreamListener):
@@ -18,8 +19,10 @@ class FavRetweetListener(tweepy.StreamListener):
         if tweet.in_reply_to_status_id is not None or \
                 tweet.user.id == self.me.id:
             return
+        if any(stop in tweet.text for stop in STOP_WORDS):
+            return
         try:
-            #tweet.favorite()
+            # tweet.favorite()
             tweet.retweet()
         except Exception as e:
             logger.error("Error on fav and retweet", exc_info=True)
