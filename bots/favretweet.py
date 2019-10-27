@@ -20,7 +20,7 @@ class FavRetweetListener(tweepy.StreamListener):
         if tweet.in_reply_to_status_id is not None or \
                 tweet.user.id == self.me.id:
             return
-        for tag in tweet.entities.hashtags:
+        for tag in tweet.entities['hashtags']:
             if tag.text in STOP_WORDS:
                 return
         try:
