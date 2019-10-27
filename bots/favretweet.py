@@ -5,7 +5,8 @@ from config import create_api
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
-STOP_WORDS = ['#game', '#gaming', 'twitch', 'stream', 'streaming', 'RussianFishing4', '#Magentfischen', '#Magnetangeln']
+STOP_WORDS = ['game', 'gaming', 'twitch', 'stream', 'streaming',
+              'RussianFishing4', 'Magnetfischen', 'Magnetangeln', 'letsplay']
 
 
 class FavRetweetListener(tweepy.StreamListener):
@@ -19,8 +20,9 @@ class FavRetweetListener(tweepy.StreamListener):
         if tweet.in_reply_to_status_id is not None or \
                 tweet.user.id == self.me.id:
             return
-        if any(stop in tweet.text for stop in STOP_WORDS):
-            return
+        for tag in tweet.entities.hashtags:
+            if tag.text in STOP_WORDS:
+                return
         try:
             # tweet.favorite()
             tweet.retweet()
