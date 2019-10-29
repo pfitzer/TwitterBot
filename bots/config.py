@@ -1,6 +1,5 @@
 import tweepy
 import logging
-import os
 
 CONSUMER_KEY = 'zzQJaeuapsfDWQuoj7rA'
 CONSUMER_SECRET = 'VOmmYerDc89sswQmMJa0C83nFa1EsLn1aGQ5H7uvoQ'
