@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 STOP_WORDS = ['game', 'gaming', 'twitch', 'stream', 'streaming',
-              'RussianFishing4', 'Magnetfischen', 'Magnetangeln', 'letsplay']
+              'RussianFishing4', 'Magnetfischen', 'Magnetangeln', 'letsplay', 'red dead redemption']
 
 
 class FavRetweetListener(tweepy.StreamListener):
@@ -21,7 +21,7 @@ class FavRetweetListener(tweepy.StreamListener):
                 tweet.user.id == self.me.id:
             return
         for tag in tweet.entities['hashtags']:
-            if tag.text in STOP_WORDS:
+            if tag['text'] in STOP_WORDS:
                 return
         try:
             # tweet.favorite()
