@@ -17,17 +17,18 @@ class FavRetweetListener(tweepy.StreamListener):
 
     def on_status(self, tweet):
         logger.info(f"Processing tweet id {tweet.id}")
-        logger.info(tweet)
         # don`t retweet own tweets
         if tweet.in_reply_to_status_id is not None or \
                 tweet.user.id == self.me.id:
             return
         # don`t retweet if text contqains a stop word
         if any(s in tweet.text.lower().strip() for s in STOP_WORDS):
+            logger.info(f"Tweet id {tweet.id} blocked")
             return
         # don`t retweet if tags contqains a stop word
         for tag in tweet.entities['hashtags']:
             if tag['text'].lower() in STOP_WORDS:
+                logger.info(f"Tweet id {tweet.id} blocked")
                 return
         try:
             # tweet.favorite()
