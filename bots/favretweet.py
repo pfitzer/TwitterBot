@@ -22,14 +22,14 @@ class FavRetweetListener(tweepy.StreamListener):
         if tweet.in_reply_to_status_id is not None or \
                 tweet.user.id == self.me.id or tweet.user.id in self.blocks:
             return
-        # don`t retweet if text contqains a stop word
+        # don`t retweet if text contains a stop word
         if any(s in tweet.text.lower().strip() for s in STOP_WORDS):
-            logger.info(f"Tweet id {tweet.id} blocked")
+            logger.info(f"Tweet id {tweet.id} blocked by text")
             return
         # don`t retweet if tags contqains a stop word
         for tag in tweet.entities['hashtags']:
             if tag['text'].lower().strip() in STOP_WORDS:
-                logger.info(f"Tweet id {tweet.id} blocked")
+                logger.info(f"Tweet id {tweet.id} blocked by tag")
                 return
         try:
             # tweet.favorite()
