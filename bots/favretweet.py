@@ -23,11 +23,19 @@ class FavRetweetListener(tweepy.StreamListener):
                 tweet.user.id == self.me.id or tweet.user.id in self.blocks:
             return
         # don`t retweet if text contains a stop word
-        if any(s in tweet['extended_tweet']['full_text'].lower().strip() for s in STOP_WORDS):
+        try:
+            text = tweet.extended_tweet['full_text']
+        except:
+            text = tweet.text
+        if any(s in text.lower().strip() for s in STOP_WORDS):
             logger.info(f"Tweet id {tweet.id} blocked by text")
             return
         # don`t retweet if tags contqains a stop word
-        for tag in tweet['extended_tweet']['entities']['hashtags']:
+        try:
+            hashtags = tweet.extended_tweet['entities']['hashtags']
+        except:
+            hashtags = tweet.entities
+        for tag in hashtags:
             if tag['text'].lower().strip() in STOP_WORDS:
                 logger.info(f"Tweet id {tweet.id} blocked by tag")
                 return
