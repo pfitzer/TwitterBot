@@ -1,16 +1,17 @@
 import logging
+
 import tweepy
 from config import create_api
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
-STOP_WORDS = ['game', 'gaming', 'twitch', 'stream', 'streaming',
-              'RussianFishing4', 'Magnetfischen', 'Magnetangeln', 'letsplay', 'red dead redemption']
+STOP_WORDS = ['game', 'gaming', 'twitch', 'stream', 'streaming', 'survival', 'outdoor',
+              'russianfishing4', 'magnetfischen', 'magnetangeln', 'letsplay', 'red dead redemption']
 
 
 class FavRetweetListener(tweepy.StreamListener):
-    
+
     def __init__(self, api):
         self.me = api.me()
         self.blocks = api.blocks_ids()
@@ -34,7 +35,7 @@ class FavRetweetListener(tweepy.StreamListener):
         try:
             hashtags = tweet.extended_tweet['entities']['hashtags']
         except:
-            hashtags = tweet.entities
+            hashtags = tweet.entities['hashtags']
         for tag in hashtags:
             if tag['text'].lower().strip() in STOP_WORDS:
                 logger.info(f"Tweet id {tweet.id} blocked by tag")
@@ -42,7 +43,7 @@ class FavRetweetListener(tweepy.StreamListener):
         try:
             # tweet.favorite()
             tweet.retweet()
-        except Exception as e:
+        except:
             logger.error("Error on fav and retweet", exc_info=True)
 
     def on_error(self, status):
