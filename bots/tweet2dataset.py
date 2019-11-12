@@ -6,7 +6,7 @@ import numpy as np
 import tweepy
 from config import create_api
 
-PICKLE_FILE = os.path.join(os.path.abspath(__file__), 'tweets.pkl')
+PICKLE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tweets.pkl')
 
 api = create_api()
 data_set = {}
