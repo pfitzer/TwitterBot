@@ -1,15 +1,22 @@
 import logging
+import os
+import sys
 
 import tweepy
 from config import create_api
 
-import os
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
-STOP_WORDS = os.environ['STOP_WORDS'].split(',')
-HASHTAGS = os.environ['HASHTAGS'].split(',')
+try:
+    STOP_WORDS = os.environ['STOP_WORDS'].split(',')
+except:
+    STOP_WORDS = []
+try:
+    HASHTAGS = os.environ['HASHTAGS'].split(',')
+except:
+    logger.error('No HASHTAGS environment variable is set. I stop now.')
+    sys.exit(1)
 
 
 class FavRetweetListener(tweepy.StreamListener):
