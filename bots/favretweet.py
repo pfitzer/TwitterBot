@@ -17,7 +17,10 @@ try:
 except:
     logger.error('No HASHTAGS environment variable is set. I stop now.')
     sys.exit(1)
-
+try:
+    TWITTER_LANG = os.environ['TWITTER_LANGS']
+except:
+    TWITTER_LANG = ['en']
 
 class FavRetweetListener(tweepy.StreamListener):
 
@@ -59,12 +62,12 @@ class FavRetweetListener(tweepy.StreamListener):
         logger.error(status)
 
 
-def main(keywords):
+def main():
     api = create_api()
     tweets_listener = FavRetweetListener(api)
     stream = tweepy.Stream(api.auth, tweets_listener, tweet_mode="extended")
-    stream.filter(track=keywords, languages=["de"])
+    stream.filter(track=HASHTAGS, languages=TWITTER_LANG)
 
 
 if __name__ == "__main__":
-    main(HASHTAGS)
+    main()
