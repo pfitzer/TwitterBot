@@ -1,10 +1,11 @@
 import tweepy
 import logging
+import os
 
-CONSUMER_KEY = 'zzQJaeuapsfDWQuoj7rA'
-CONSUMER_SECRET = 'VOmmYerDc89sswQmMJa0C83nFa1EsLn1aGQ5H7uvoQ'
-ACCESS_TOKEN = '980216408-re4MRB6YNkjcVSwy8Ykh8E8rHNgi1vYl7LUkjkOg'
-ACCESS_TOKEN_SECRET = 'FdWFpn93T5YxaPrccI7rkFzpfvpb9C3Hq99oCfcJi4'
+CONSUMER_KEY = os.environ['CONSUMER_KEY']
+CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
+ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
 
 logger = logging.getLogger()
 

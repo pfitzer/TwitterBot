@@ -3,11 +3,13 @@ import logging
 import tweepy
 from config import create_api
 
+import os
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
-STOP_WORDS = ['game', 'gaming', 'twitch', 'stream', 'streaming', 'survival', 'outdoor',
-              'russianfishing4', 'magnetfischen', 'magnetangeln', 'letsplay', 'red dead redemption']
+STOP_WORDS = os.environ['STOP_WORDS'].split(',')
+HASHTAGS = os.environ['HASHTAGS'].split(',')
 
 
 class FavRetweetListener(tweepy.StreamListener):
@@ -42,7 +44,8 @@ class FavRetweetListener(tweepy.StreamListener):
                 return
         try:
             # tweet.favorite()
-            tweet.retweet()
+            # tweet.retweet()
+            print(tweet)
         except:
             logger.error("Error on fav and retweet", exc_info=True)
 
@@ -58,4 +61,4 @@ def main(keywords):
 
 
 if __name__ == "__main__":
-    main(["#Angeln", "#Fliegenfischen", "#flytying", "#Fliegenbinden", "#flyfishing"])
+    main(HASHTAGS)
