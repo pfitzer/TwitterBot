@@ -16,7 +16,7 @@ Then create a .env file like this, but with the data you got from twitter. And c
 
     ## Bot
     # a comma seperated list of stop words
-    # tweets containing on of these words won`t be retweeted
+    # tweets containing one of these words won`t be retweeted
     STOP_WORDS=a,list,of,stopwords
 
     # a comma seperated list of favorite hashtags
@@ -32,6 +32,6 @@ Then create a .env file like this, but with the data you got from twitter. And c
     
 ### Prerequisites
 
-* Python 3.7
+* Python 3.8
 * Tweepy
 
