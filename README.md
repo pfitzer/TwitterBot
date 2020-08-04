@@ -4,9 +4,10 @@
 
 ### How to use?
 
-First, you need an app on [twitter](https://developer.twitter.com/en/apps)
+First, you need to create an app on [twitter](https://developer.twitter.com/en/apps)
 
-Then create a .env file like this, but with the data you got from twitter. And change STOP_WORDS and HASHTAGS to fit your needs:
+Then create a .env file with the following content and add the data you got from twitter.
+And change STOP_WORDS and HASHTAGS to fit your needs.
 
     ## Twitter Api
     CONSUMER_KEY=YOUR_CONSUMER_KEY
@@ -21,6 +22,9 @@ Then create a .env file like this, but with the data you got from twitter. And c
 
     # a comma seperated list of favorite hashtags
     HASHTAGS=#we,#love,#twitter
+    
+    # a list of preferred languages
+    TWITTER_LANG=en,de
 
 ### The container
 
@@ -29,6 +33,21 @@ Then create a .env file like this, but with the data you got from twitter. And c
     
     # and run it
     docker run -d --env-file .env --restart always pfitzer/twitterbot
+    
+### Build from scratch
+    
+    git clone https://github.com/pfitzer/TwitterBot.git
+    cd TwitterBot
+    docker build . -t twitterbot
+    
+### Enhanced functionality
+
+There are two more python files under the bots directory
+
+* autoreply.py is for auto reply to messages
+* followfollowers.py is for automatic re-follow
+
+To use these functions, add them as CMD to the dockerfile and build the image from scratch.
     
 ### Prerequisites
 
