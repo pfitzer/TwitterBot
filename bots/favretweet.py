@@ -11,39 +11,15 @@ logger = logging.getLogger()
 
 try:
     STOP_WORDS = os.environ['STOP_WORDS'].split(',')
-except ValueError:
+except:
     STOP_WORDS = []
 try:
     HASHTAGS = os.environ['HASHTAGS'].split(',')
-except ValueError:
+except:
     logger.error('No HASHTAGS environment variable is set. I stop now.')
     sys.exit(1)
 
 TWITTER_LANG = os.getenv('TWITTER_LANGS', 'en')
-
-
-def _check_hashtags(tweet):
-    try:
-        hashtags = tweet.extended_tweet['entities']['hashtags']
-    except:
-        hashtags = tweet.entities['hashtags']
-    for tag in hashtags:
-        if tag['text'].lower().strip() in STOP_WORDS:
-            logger.info(f"Tweet id {tweet.id} blocked by tag")
-            return False
-    return True
-
-
-def _check_text(tweet):
-    try:
-        text = tweet.extended_tweet['full_text']
-    except:
-        text = tweet.text
-    if any(s in text.lower().strip() for s in STOP_WORDS):
-        logger.info(f"Tweet id {tweet.id} blocked by text")
-        return False
-    return True
-
 
 class FavRetweetListener(tweepy.StreamListener):
 
@@ -58,13 +34,26 @@ class FavRetweetListener(tweepy.StreamListener):
         if tweet.in_reply_to_status_id is not None or \
                 tweet.user.id == self.me.id or tweet.user.id in self.blocks:
             return
-
-        text_ok = _check_text(tweet)
-        tags_ok = _check_hashtags(tweet)
-
+        # don`t retweet if text contains a stop word
         try:
-            if text_ok and tags_ok:
-                tweet.retweet()
+            text = tweet.extended_tweet['full_text']
+        except:
+            text = tweet.text
+        if any(s in text.lower().strip() for s in STOP_WORDS):
+            logger.info(f"Tweet id {tweet.id} blocked by text")
+            return
+        # don`t retweet if tags contqains a stop word
+        try:
+            hashtags = tweet.extended_tweet['entities']['hashtags']
+        except:
+            hashtags = tweet.entities['hashtags']
+        for tag in hashtags:
+            if tag['text'].lower().strip() in STOP_WORDS:
+                logger.info(f"Tweet id {tweet.id} blocked by tag")
+                return
+        try:
+            # tweet.favorite()
+            tweet.retweet()
         except:
             logger.error("Error on fav and retweet", exc_info=True)
 
