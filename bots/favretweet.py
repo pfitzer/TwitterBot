@@ -1,25 +1,11 @@
 import logging
-import os
-import sys
 import time
 
 import tweepy
-from config import create_api
+from config import create_api, Config
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
-
-try:
-    STOP_WORDS = os.environ['STOP_WORDS'].split(',')
-except:
-    STOP_WORDS = []
-try:
-    HASHTAGS = os.environ['HASHTAGS'].split(',')
-except:
-    logger.error('No HASHTAGS environment variable is set. I stop now.')
-    sys.exit(1)
-
-TWITTER_LANG = os.getenv('TWITTER_LANGS', 'en')
 
 
 class FavRetweetListener(tweepy.StreamListener):
@@ -38,37 +24,44 @@ class FavRetweetListener(tweepy.StreamListener):
         # don`t retweet if text contains a stop word
         try:
             text = tweet.extended_tweet['full_text']
-        except:
+        except ValueError:
             text = tweet.text
-        if any(s in text.lower().strip() for s in STOP_WORDS):
+        if any(s in text.lower().strip() for s in Config.get_stop_words()):
             logger.info(f"Tweet id {tweet.id} blocked by text")
             return
-        # don`t retweet if tags contqains a stop word
+        # don`t retweet if tags contain a stop word
         try:
             hashtags = tweet.extended_tweet['entities']['hashtags']
-        except:
+        except ValueError:
             hashtags = tweet.entities['hashtags']
         for tag in hashtags:
-            if tag['text'].lower().strip() in STOP_WORDS:
+            if tag['text'].lower().strip() in Config.get_stop_words():
                 logger.info(f"Tweet id {tweet.id} blocked by tag")
                 return
-        try:
-            # tweet.favorite()
-            tweet.retweet()
-        except:
-            logger.error("Error on fav and retweet", exc_info=True)
+
+        tweet.retweet()
+        return
 
     def on_error(self, status):
         logger.error(status)
         if status == 420:
             time.sleep(15 * 60)
+        return False
+
+    def on_connect(self):
+        logger.info("You are connected to the streaming server.")
+        return
+
+    def on_exception(self, exception):
+        logger.error(exception)
+        return
 
 
 def main():
     api = create_api()
     tweets_listener = FavRetweetListener(api)
     stream = tweepy.Stream(api.auth, tweets_listener, tweet_mode="extended")
-    stream.filter(track=HASHTAGS, languages=TWITTER_LANG)
+    stream.filter(track=Config.get_hashtags(), languages=Config.get_language())
 
 
 if __name__ == "__main__":

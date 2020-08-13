@@ -1,6 +1,7 @@
 import tweepy
 import logging
 import os
+import sys
 
 CONSUMER_KEY = os.environ['CONSUMER_KEY']
 CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
@@ -27,3 +28,30 @@ def create_api():
         raise e
     logger.info("API created")
     return api
+
+
+class Config(object):
+
+    @staticmethod
+    def get_stop_words():
+        try:
+            stop_words = os.environ['STOP_WORDS'].split(',')
+        except ValueError:
+            stop_words = []
+        return stop_words
+
+    @staticmethod
+    def get_hashtags():
+        try:
+            return os.environ['HASHTAGS'].split(',')
+        except ValueError:
+            logger.error('No HASHTAGS environment variable is set. I stop now.')
+            sys.exit(1)
+
+    @staticmethod
+    def get_language():
+        try:
+            twitter_lang = os.environ['TWITTER_LANG'].split(',')
+        except ValueError:
+            twitter_lang = ['en']
+        return twitter_lang
