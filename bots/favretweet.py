@@ -21,6 +21,7 @@ except:
 
 TWITTER_LANG = os.getenv('TWITTER_LANGS', 'en')
 
+
 class FavRetweetListener(tweepy.StreamListener):
 
     def __init__(self, api):
