@@ -24,7 +24,7 @@ class FavRetweetListener(tweepy.StreamListener):
         # don`t retweet if text contains a stop word
         try:
             text = tweet.extended_tweet['full_text']
-        except ValueError:
+        except (ValueError, AttributeError):
             text = tweet.text
         if any(s in text.lower().strip() for s in Config.get_stop_words()):
             logger.info(f"Tweet id {tweet.id} blocked by text")
@@ -32,7 +32,7 @@ class FavRetweetListener(tweepy.StreamListener):
         # don`t retweet if tags contain a stop word
         try:
             hashtags = tweet.extended_tweet['entities']['hashtags']
-        except ValueError:
+        except (ValueError, AttributeError):
             hashtags = tweet.entities['hashtags']
         for tag in hashtags:
             if tag['text'].lower().strip() in Config.get_stop_words():
