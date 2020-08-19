@@ -1,5 +1,8 @@
 # Docker Twitterbot
 
+![Create Release](https://github.com/pfitzer/TwitterBot/workflows/Create%20Release/badge.svg)
+![Docker Pulls](https://img.shields.io/docker/pulls/pfitzer/twitterbot.svg?style=flat-square&logo=docker)
+
 ##### automated retweeting
 
 ### How to use?
