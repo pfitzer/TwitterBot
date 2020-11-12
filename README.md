@@ -1,7 +1,9 @@
 # Docker Twitterbot
 
-![Create Release](https://github.com/pfitzer/TwitterBot/workflows/Create%20Release/badge.svg)
-![Docker Pulls](https://img.shields.io/docker/pulls/pfitzer/twitterbot.svg?style=flat-square&logo=docker)
+[<img src="https://github.com/pfitzer/TwitterBot/workflows/Create%20Release/badge.svg">](https://github.com/pfitzer/TwitterBot/actions?query=workflow%3A%22Create+Release%22)
+[<img src="https://img.shields.io/docker/pulls/pfitzer/twitterbot.svg?style=flat-square&logo=docker">](https://hub.docker.com/r/pfitzer/twitterbot)
+[<img src="https://pyup.io/repos/github/pfitzer/TwitterBot/shield.svg?t=1605168945323">](https://pyup.io/account/repos/github/pfitzer/TwitterBot/)
+[<img src="https://pyup.io/repos/github/pfitzer/TwitterBot/python-3-shield.svg?t=1605168967691">](https://pyup.io/account/repos/github/pfitzer/TwitterBot/)
 
 ##### automated retweeting
 
